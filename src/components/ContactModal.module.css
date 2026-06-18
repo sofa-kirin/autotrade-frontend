@@ -1,0 +1,151 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.close:hover { background: #f0f0f0; color: #333; }
+
+.modal h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.3rem;
+  color: #111;
+}
+
+.subtitle {
+  font-size: 0.88rem;
+  color: #666;
+  margin: 0 0 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.field input,
+.field textarea {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  transition: border-color 0.2s;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: #1a73e8;
+}
+
+.submitBtn {
+  padding: 0.8rem;
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.3rem;
+}
+
+.submitBtn:hover:not(:disabled) { background: #1558b0; }
+.submitBtn:disabled { opacity: 0.6; cursor: default; }
+
+.error {
+  color: #d32f2f;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+/* Success state */
+.successState {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.successState h2 {
+  margin: 0 0 0.4rem;
+  color: #111;
+}
+
+.successState p {
+  color: #666;
+  margin: 0 0 1.5rem;
+}
+
+.doneBtn {
+  padding: 0.7rem 2rem;
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}

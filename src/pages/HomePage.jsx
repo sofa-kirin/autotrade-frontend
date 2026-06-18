@@ -1,9 +1,19 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 import heroBg from '../assets/hero.png';
 
+const MAKES = ['Toyota', 'BMW', 'Mercedes', 'Audi', 'Ford', 'Honda', 'Tesla', 'Volkswagen'];
+const PRICE_RANGES = [
+  { label: 'Up to $10,000', max: 10000 },
+  { label: '$10,000 – $20,000', min: 10000, max: 20000 },
+  { label: '$20,000 – $40,000', min: 20000, max: 40000 },
+  { label: '$40,000+', min: 40000 },
+];
+
 export default function HomePage() {
   const navigate = useNavigate();
+  const [search, setSearch] = useState({ make: '', year: '', priceRange: '' });
 
   return (
     <div className={styles.page}>
@@ -33,29 +43,48 @@ export default function HomePage() {
       <section className={styles.search}>
         <h2>Quick Search</h2>
         <div className={styles.searchForm}>
-          <select defaultValue="">
-            <option value="" disabled>Make</option>
-            <option>Toyota</option>
-            <option>BMW</option>
-            <option>Mercedes</option>
-            <option>Audi</option>
-            <option>Ford</option>
-            <option>Honda</option>
+          <select
+            value={search.make}
+            onChange={(e) => setSearch((s) => ({ ...s, make: e.target.value }))}
+          >
+            <option value="">Any Make</option>
+            {MAKES.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
-          <select defaultValue="">
-            <option value="" disabled>Year</option>
+
+          <select
+            value={search.year}
+            onChange={(e) => setSearch((s) => ({ ...s, year: e.target.value }))}
+          >
+            <option value="">Any Year</option>
             {Array.from({ length: 15 }, (_, i) => 2024 - i).map((y) => (
-              <option key={y}>{y}</option>
+              <option key={y} value={y}>{y}</option>
             ))}
           </select>
-          <select defaultValue="">
-            <option value="" disabled>Price range</option>
-            <option>Up to $5,000</option>
-            <option>$5,000 – $10,000</option>
-            <option>$10,000 – $20,000</option>
-            <option>$20,000+</option>
+
+          <select
+            value={search.priceRange}
+            onChange={(e) => setSearch((s) => ({ ...s, priceRange: e.target.value }))}
+          >
+            <option value="">Any Price</option>
+            {PRICE_RANGES.map((r) => (
+              <option key={r.label} value={r.label}>{r.label}</option>
+            ))}
           </select>
-          <button className={styles.btnPrimary} onClick={() => navigate('/listings')}>
+
+          <button
+            className={styles.btnPrimary}
+            onClick={() => {
+              const params = new URLSearchParams();
+              if (search.make) params.set('make', search.make);
+              if (search.year) params.set('year', search.year);
+              if (search.priceRange) {
+                const range = PRICE_RANGES.find((r) => r.label === search.priceRange);
+                if (range?.min) params.set('minPrice', range.min);
+                if (range?.max) params.set('maxPrice', range.max);
+              }
+              navigate(`/listings?${params.toString()}`);
+            }}
+          >
             Search
           </button>
         </div>

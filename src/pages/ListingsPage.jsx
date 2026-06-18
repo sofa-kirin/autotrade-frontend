@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getListings } from '../api/listings';
 import styles from './ListingsPage.module.css';
 
@@ -18,13 +18,15 @@ export default function ListingsPage() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const [searchParams] = useSearchParams();
+
   const [filters, setFilters] = useState({
-    make: '',
+    make: searchParams.get('make') || '',
     fuelType: '',
     transmission: '',
-    minPrice: 0,
-    maxPrice: 100000,
-    minYear: 2000,
+    minPrice: Number(searchParams.get('minPrice')) || 0,
+    maxPrice: Number(searchParams.get('maxPrice')) || 100000,
+    minYear: Number(searchParams.get('year')) || 2000,
     maxYear: new Date().getFullYear(),
   });
 
