@@ -1,0 +1,88 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 64px;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  text-decoration: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.links a {
+  color: #444;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.links a:hover {
+  color: #1a73e8;
+}
+
+.active {
+  color: #1a73e8 !important;
+  font-weight: 600 !important;
+}
+
+.adminBtn {
+  padding: 0.35rem 1rem;
+  border: 1.5px solid #111 !important;
+  border-radius: 6px;
+  color: #111 !important;
+  font-weight: 600 !important;
+}
+
+.adminBtn:hover {
+  background: #111;
+  color: #fff !important;
+}
+
+.registerBtn {
+  padding: 0.35rem 1rem;
+  border: 1.5px solid #1a73e8 !important;
+  border-radius: 6px;
+  color: #1a73e8 !important;
+  font-weight: 600 !important;
+}
+
+.registerBtn:hover {
+  background: #1a73e8;
+  color: #fff !important;
+}
+
+.logoutBtn {
+  background: none;
+  border: 1.5px solid #e53935;
+  color: #e53935;
+  padding: 0.35rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logoutBtn:hover {
+  background: #e53935;
+  color: #fff;
+}
