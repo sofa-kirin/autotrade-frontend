@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { getListings } from '../api/listings';
 import styles from './ListingsPage.module.css';
 
@@ -128,8 +129,15 @@ export default function ListingsPage() {
             <p className={styles.center}>No vehicles found</p>
           ) : (
             <div className={styles.grid}>
-              {displayed.map((car) => (
-                <div key={car.id} className={styles.card}>
+              {displayed.map((car, i) => (
+                <motion.div
+                  key={car.id}
+                  className={styles.card}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: i * 0.07 }}
+                  whileHover={{ y: -5, boxShadow: '0 10px 28px rgba(0,0,0,0.13)' }}
+                >
                   <div className={styles.cardImg}>
                     {car.mainImageUrl
                       ? <img src={car.mainImageUrl} alt={car.title} />
@@ -161,7 +169,7 @@ export default function ListingsPage() {
                       View Details
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
