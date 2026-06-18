@@ -1,19 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getListings } from '../api/listings';
 import styles from './HomePage.module.css';
-import heroBg from '../assets/hero.png';
-
-const MAKES = ['Toyota', 'BMW', 'Mercedes', 'Audi', 'Ford', 'Honda', 'Tesla', 'Volkswagen'];
-const PRICE_RANGES = [
-  { label: 'Up to $10,000', max: 10000 },
-  { label: '$10,000 – $20,000', min: 10000, max: 20000 },
-  { label: '$20,000 – $40,000', min: 20000, max: 40000 },
-  { label: '$40,000+', min: 40000 },
-];
+import heroBg from '../assets/hero.jpg';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState({ make: '', year: '', priceRange: '' });
+  const [featured, setFeatured] = useState([]);
+
+  useEffect(() => {
+    getListings(0, 3).then(({ data }) => setFeatured(data.content));
+  }, []);
 
   return (
     <div className={styles.page}>
@@ -42,53 +39,40 @@ export default function HomePage() {
       {/* Quick Search */}
       <section className={styles.search}>
         <h2>Quick Search</h2>
-        <div className={styles.searchForm}>
-          <select
-            value={search.make}
-            onChange={(e) => setSearch((s) => ({ ...s, make: e.target.value }))}
-          >
-            <option value="">Any Make</option>
-            {MAKES.map((m) => <option key={m} value={m}>{m}</option>)}
-          </select>
-
-          <select
-            value={search.year}
-            onChange={(e) => setSearch((s) => ({ ...s, year: e.target.value }))}
-          >
-            <option value="">Any Year</option>
-            {Array.from({ length: 15 }, (_, i) => 2024 - i).map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
-
-          <select
-            value={search.priceRange}
-            onChange={(e) => setSearch((s) => ({ ...s, priceRange: e.target.value }))}
-          >
-            <option value="">Any Price</option>
-            {PRICE_RANGES.map((r) => (
-              <option key={r.label} value={r.label}>{r.label}</option>
-            ))}
-          </select>
-
-          <button
-            className={styles.btnPrimary}
-            onClick={() => {
-              const params = new URLSearchParams();
-              if (search.make) params.set('make', search.make);
-              if (search.year) params.set('year', search.year);
-              if (search.priceRange) {
-                const range = PRICE_RANGES.find((r) => r.label === search.priceRange);
-                if (range?.min) params.set('minPrice', range.min);
-                if (range?.max) params.set('maxPrice', range.max);
-              }
-              navigate(`/listings?${params.toString()}`);
-            }}
-          >
-            Search
-          </button>
-        </div>
+        <button className={styles.searchAllBtn} onClick={() => navigate('/listings')}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          Search All Vehicles
+        </button>
       </section>
+
+      {/* Featured Vehicles */}
+      {featured.length > 0 && (
+        <section className={styles.featured}>
+          <h2>Featured Vehicles</h2>
+          <div className={styles.featuredGrid}>
+            {featured.map((car) => (
+              <div key={car.id} className={styles.featuredCard} onClick={() => navigate(`/listings/${car.id}`)}>
+                <div className={styles.featuredImg}>
+                  {car.mainImageUrl
+                    ? <img src={car.mainImageUrl} alt={car.title} />
+                    : <div className={styles.noImg}>No photo</div>
+                  }
+                  <span className={styles.featuredBadge}>Featured</span>
+                </div>
+                <div className={styles.featuredBody}>
+                  <h3>{car.year} {car.brand} {car.model}</h3>
+                  <p className={styles.featuredPrice}>${Number(car.price).toLocaleString()}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className={styles.viewAllBtn} onClick={() => navigate('/listings')}>
+            View All Vehicles →
+          </button>
+        </section>
+      )}
 
       {/* How It Works */}
       <section className={styles.howItWorks} id="how-it-works">
