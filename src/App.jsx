@@ -5,6 +5,10 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
 import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
+import AdminPage from './pages/AdminPage';
+import AdminDashboard from './pages/AdminDashboard';
+import ListingForm from './pages/ListingForm';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -21,6 +25,9 @@ function AnimatedRoutes() {
         <Route path="/listings/:id" element={<PageTransition><ListingDetailPage /></PageTransition>} />
         <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
         <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/admin" element={<AdminRoute><PageTransition><AdminDashboard /></PageTransition></AdminRoute>} />
+        <Route path="/admin/listings/new" element={<AdminRoute><PageTransition><ListingForm /></PageTransition></AdminRoute>} />
+        <Route path="/admin/listings/:id/edit" element={<AdminRoute><PageTransition><ListingForm /></PageTransition></AdminRoute>} />
       </Routes>
     </AnimatePresence>
   );

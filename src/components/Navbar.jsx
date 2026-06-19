@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import styles from './Navbar.module.css';
+import logo from '../assets/3.png';
 
 export default function Navbar() {
   const { user, logoutUser } = useAuth();
@@ -14,12 +15,8 @@ export default function Navbar() {
   return (
     <nav className={styles.nav}>
       <Link to="/" className={styles.logo}>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="1" y="9" width="22" height="9" rx="2"/>
-          <path d="M5 9V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/>
-          <circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>
-        </svg>
-        AutoTrade
+        <img src={logo} alt="AutoTrade" className={styles.logoImg} />
+        <span className={styles.logoText}>AUTOTRADE</span>
       </Link>
 
       <div className={styles.links}>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
+import logo from '../assets/3.png';
 
 export default function Footer() {
   return (
@@ -8,12 +9,8 @@ export default function Footer() {
         {/* Brand */}
         <div className={styles.brand}>
           <div className={styles.logo}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="1" y="9" width="22" height="9" rx="2"/>
-              <path d="M5 9V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/>
-              <circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>
-            </svg>
-            AutoTrade
+            <img src={logo} alt="AutoTrade" className={styles.logoImg} />
+            <span>AutoTrade</span>
           </div>
           <p>Your trusted partner in finding the perfect vehicle. Quality cars, exceptional service.</p>
         </div>

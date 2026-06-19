@@ -22,6 +22,12 @@
   margin-bottom: 1rem;
 }
 
+.logoImg {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
 .brand p {
   font-size: 0.88rem;
   line-height: 1.6;
