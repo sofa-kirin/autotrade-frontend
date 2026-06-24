@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
@@ -14,6 +15,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ListingsPage from './pages/ListingsPage';
 import ListingDetailPage from './pages/ListingDetailPage';
+import FavoritesPage from './pages/FavoritesPage';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -25,6 +27,7 @@ function AnimatedRoutes() {
         <Route path="/listings/:id" element={<PageTransition><ListingDetailPage /></PageTransition>} />
         <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
         <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/favorites" element={<PrivateRoute><PageTransition><FavoritesPage /></PageTransition></PrivateRoute>} />
         <Route path="/admin" element={<AdminRoute><PageTransition><AdminDashboard /></PageTransition></AdminRoute>} />
         <Route path="/admin/listings/new" element={<AdminRoute><PageTransition><ListingForm /></PageTransition></AdminRoute>} />
         <Route path="/admin/listings/:id/edit" element={<AdminRoute><PageTransition><ListingForm /></PageTransition></AdminRoute>} />
@@ -37,11 +40,13 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar />
-        <main>
-          <AnimatedRoutes />
-        </main>
-        <Footer />
+        <FavoritesProvider>
+          <Navbar />
+          <main>
+            <AnimatedRoutes />
+          </main>
+          <Footer />
+        </FavoritesProvider>
       </BrowserRouter>
     </AuthProvider>
   );

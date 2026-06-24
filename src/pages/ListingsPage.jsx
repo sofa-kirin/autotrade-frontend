@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getListings } from '../api/listings';
+import HeartButton from '../components/HeartButton';
 import styles from './ListingsPage.module.css';
 
 const MAKES = ['Toyota', 'BMW', 'Mercedes', 'Audi', 'Ford', 'Honda', 'Tesla', 'Volkswagen'];
@@ -154,6 +155,7 @@ export default function ListingsPage() {
                       ? <img src={car.mainImageUrl} alt={car.title} />
                       : <div className={styles.noImg}>No photo</div>
                     }
+                    <HeartButton listingId={car.id} />
                   </div>
                   <div className={styles.cardBody}>
                     <h3>{car.year} {car.brand} {car.model}</h3>

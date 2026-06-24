@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { getListings } from '../api/listings';
 import ScrollReveal from '../components/ScrollReveal';
+import HeartButton from '../components/HeartButton';
 import styles from './HomePage.module.css';
 import heroBg from '../assets/hero.jpg';
 
@@ -90,6 +91,7 @@ export default function HomePage() {
                       : <div className={styles.noImg}>No photo</div>
                     }
                     <span className={styles.featuredBadge}>Featured</span>
+                    <HeartButton listingId={car.id} />
                   </div>
                   <div className={styles.featuredBody}>
                     <h3>{car.year} {car.brand} {car.model}</h3>
