@@ -1,11 +1,19 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useEffect, useState } from 'react';
 import styles from './Navbar.module.css';
 import logo from '../assets/3.png';
 
 export default function Navbar() {
   const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleLogout = () => {
     logoutUser();
@@ -13,7 +21,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
       <Link to="/" className={styles.logo}>
         <img src={logo} alt="AutoTrade" className={styles.logoImg} />
         <span className={styles.logoText}>AUTOTRADE</span>

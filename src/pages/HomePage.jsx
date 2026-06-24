@@ -1,10 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { getListings } from '../api/listings';
 import ScrollReveal from '../components/ScrollReveal';
 import styles from './HomePage.module.css';
 import heroBg from '../assets/hero.jpg';
+
+function AnimatedCounter({ to, suffix = '' }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const motionVal = useMotionValue(0);
+  const spring = useSpring(motionVal, { duration: 1500, bounce: 0 });
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (inView) motionVal.set(to);
+  }, [inView, to, motionVal]);
+
+  useEffect(() => spring.on('change', (v) => setDisplay(Math.round(v))), [spring]);
+
+  return <span ref={ref}>{display.toLocaleString()}{suffix}</span>;
+}
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -53,33 +69,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Quick Search */}
-      <ScrollReveal>
-        <section className={styles.search}>
-          <h2>Quick Search</h2>
-          <button className={styles.searchAllBtn} onClick={() => navigate('/listings')}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-            </svg>
-            Search All Vehicles
-          </button>
-        </section>
-      </ScrollReveal>
-
       {/* Featured Vehicles */}
       {featured.length > 0 && (
         <section className={styles.featured}>
-          <ScrollReveal>
+          <ScrollReveal direction="zoom">
             <h2>Featured Vehicles</h2>
           </ScrollReveal>
           <div className={styles.featuredGrid}>
             {featured.map((car, i) => (
-              <ScrollReveal key={car.id} delay={i * 0.15} direction="up">
+              <ScrollReveal key={car.id} delay={i * 0.12} direction={i % 3 === 0 ? 'left' : i % 3 === 1 ? 'up' : 'right'}>
                 <motion.div
                   className={styles.featuredCard}
                   onClick={() => navigate(`/listings/${car.id}`)}
-                  whileHover={{ y: -8, boxShadow: '0 16px 36px rgba(0,0,0,0.18)' }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.18)' }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 18 }}
                 >
                   <div className={styles.featuredImg}>
                     {car.mainImageUrl
@@ -106,31 +109,31 @@ export default function HomePage() {
 
       {/* How It Works */}
       <section className={styles.howItWorks} id="how-it-works">
-        <ScrollReveal>
+        <ScrollReveal direction="flip">
           <h2>How It Works</h2>
         </ScrollReveal>
         <div className={styles.steps}>
-          <ScrollReveal delay={0} direction="left">
+          <ScrollReveal delay={0} direction="left" duration={0.8}>
             <div className={styles.step}>
               <div className={styles.stepNum}>1</div>
               <h3>Create an Account</h3>
               <p>Sign up for free in seconds and get full access to all listings.</p>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={0.1}>
+          <ScrollReveal delay={0.15} direction="zoom">
             <div className={styles.stepArrow}>→</div>
           </ScrollReveal>
-          <ScrollReveal delay={0.2} direction="up">
+          <ScrollReveal delay={0.25} direction="up" duration={0.9}>
             <div className={styles.step}>
               <div className={styles.stepNum}>2</div>
               <h3>Browse or Post</h3>
               <p>Search thousands of cars or post your own vehicle for sale.</p>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={0.3}>
+          <ScrollReveal delay={0.35} direction="zoom">
             <div className={styles.stepArrow}>→</div>
           </ScrollReveal>
-          <ScrollReveal delay={0.4} direction="right">
+          <ScrollReveal delay={0.45} direction="right" duration={0.8}>
             <div className={styles.step}>
               <div className={styles.stepNum}>3</div>
               <h3>Connect & Deal</h3>
@@ -168,11 +171,11 @@ export default function HomePage() {
               text: 'Our streamlined process makes buying your next car simple and hassle-free.',
             },
           ].map((item, i) => (
-            <ScrollReveal key={item.title} delay={i * 0.12} direction="up">
+            <ScrollReveal key={item.title} delay={i * 0.15} direction={['left', 'up', 'up', 'right'][i]} duration={0.7}>
               <motion.div
                 className={styles.whyItem}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                whileHover={{ scale: 1.07, y: -6 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 16 }}
               >
                 <div className={styles.whyIcon}>
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

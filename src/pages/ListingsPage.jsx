@@ -124,7 +124,18 @@ export default function ListingsPage() {
           </p>
 
           {loading ? (
-            <p className={styles.center}>Loading...</p>
+            <div className={styles.grid}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className={styles.skeleton}>
+                  <div className={styles.skeletonImg} />
+                  <div className={styles.skeletonBody}>
+                    <div className={styles.skeletonLine} />
+                    <div className={styles.skeletonLineShort} />
+                    <div className={styles.skeletonBtn} />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : displayed.length === 0 ? (
             <p className={styles.center}>No vehicles found</p>
           ) : (
